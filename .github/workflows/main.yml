@@ -24,21 +24,21 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew clean build -x test
 
-    - name: SCP JAR to Oracle Cloud Instance
-      uses: appleboy/scp-action@v0.1.4
-      with:
-        host: ${{ secrets.ORACLE_HOST }}
-        username: ${{ secrets.ORACLE_USER }}
-        key: ${{ secrets.ORACLE_KEY }}
-        source: build/libs/*.jar
-        target: /home/ubuntu/app  # 또는 oracle 사용자에 맞는 경로
+    # - name: SCP JAR to Oracle Cloud Instance
+    #   uses: appleboy/scp-action@v0.1.4
+    #   with:
+    #     host: ${{ secrets.ORACLE_HOST }}
+    #     username: ${{ secrets.ORACLE_USER }}
+    #     key: ${{ secrets.ORACLE_KEY }}
+    #     source: build/libs/*.jar
+    #     target: /home/ubuntu/app  # 또는 oracle 사용자에 맞는 경로
 
-    - name: SSH to Oracle Cloud and restart app
-      uses: appleboy/ssh-action@v0.1.10
-      with:
-        host: ${{ secrets.ORACLE_HOST }}
-        username: ${{ secrets.ORACLE_USER }}
-        key: ${{ secrets.ORACLE_KEY }}
-        script: |
-          pkill -f 'java -jar' || true
-          nohup java -jar /home/ubuntu/app/*.jar > app.log 2>&1 < /dev/null &
+    # - name: SSH to Oracle Cloud and restart app
+    #   uses: appleboy/ssh-action@v0.1.10
+    #   with:
+    #     host: ${{ secrets.ORACLE_HOST }}
+    #     username: ${{ secrets.ORACLE_USER }}
+    #     key: ${{ secrets.ORACLE_KEY }}
+    #     script: |
+    #       pkill -f 'java -jar' || true
+    #       nohup java -jar /home/ubuntu/app/*.jar > app.log 2>&1 < /dev/null &
