@@ -1,6 +1,8 @@
 package com.example.likelion4_1.dto;
 
 
+import com.example.likelion4_1.entity.BoardEntity;
+
 public class BoardDto {
     private Integer id;
     private String title;
@@ -23,4 +25,5 @@ public class BoardDto {
         this.title = title;
         this.content = content;
     }
+
 }

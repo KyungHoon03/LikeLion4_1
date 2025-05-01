@@ -19,6 +19,10 @@ public class BoardEntity {
         this.title = title;
         this.content = content;
     }
+    public void update( String tittle, String content){
+        this.title = tittle;
+        this.content = content;
+    }
 
     public BoardEntity() {
 
