@@ -1,0 +1,44 @@
+name: Spring Boot CI/CD for Oracle Cloud
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up JDK 21
+      uses: actions/setup-java@v3
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x ./gradlew
+
+    - name: Build with Gradle
+      run: ./gradlew clean build -x test
+
+    # - name: SCP JAR to Oracle Cloud Instance
+    #   uses: appleboy/scp-action@v0.1.4
+    #   with:
+    #     host: ${{ secrets.ORACLE_HOST }}
+    #     username: ${{ secrets.ORACLE_USER }}
+    #     key: ${{ secrets.ORACLE_KEY }}
+    #     source: build/libs/*.jar
+    #     target: /home/ubuntu/app  # 또는 oracle 사용자에 맞는 경로
+
+    # - name: SSH to Oracle Cloud and restart app
+    #   uses: appleboy/ssh-action@v0.1.10
+    #   with:
+    #     host: ${{ secrets.ORACLE_HOST }}
+    #     username: ${{ secrets.ORACLE_USER }}
+    #     key: ${{ secrets.ORACLE_KEY }}
+    #     script: |
+    #       pkill -f 'java -jar' || true
+    #       nohup java -jar /home/ubuntu/app/*.jar > app.log 2>&1 < /dev/null &
