@@ -26,4 +26,8 @@ public class BoardDto {
         this.content = content;
     }
 
+    public BoardEntity toEntity() {
+        return new BoardEntity(this.title, this.content);
+    }
+
 }

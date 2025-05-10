@@ -1,14 +1,25 @@
 package com.example.likelion4_1.entity;
-
+import com.example.likelion4_1.entity.UserEntity;
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "board")
-
+@NoArgsConstructor
 public class BoardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    //**************************
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private UserEntity userEntity;
+    //*******************
+
+
+
+    //*****************
 
     @Column(name = "title", length = 50)
     private String title;
@@ -24,9 +35,6 @@ public class BoardEntity {
         this.content = content;
     }
 
-    public BoardEntity() {
-
-    }
 
     public int getId() {
         return id;
