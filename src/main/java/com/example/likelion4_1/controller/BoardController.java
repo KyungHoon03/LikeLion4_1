@@ -27,9 +27,9 @@ public class BoardController {
 
     }
 
-    @GetMapping("/read/{id}")
-    public BoardDto readBoardId(@PathVariable int id) {
-        return boardService.readById(id);
+    @GetMapping("/read/{userId}")
+    public List<BoardDto> readBoardId(@PathVariable int userId) {
+        return boardService.readById(userId);
     }
 
     @DeleteMapping("/delete/{id}")

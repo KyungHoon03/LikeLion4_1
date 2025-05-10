@@ -26,7 +26,8 @@ public class BoardEntity {
     @Column(name = "content", length = 500)
     private String content;
 
-    public BoardEntity( String title, String content) {
+    public BoardEntity(UserEntity userEntity, String title, String content) {
+        this.userEntity = userEntity;
         this.title = title;
         this.content = content;
     }
@@ -35,6 +36,9 @@ public class BoardEntity {
         this.content = content;
     }
 
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
 
     public int getId() {
         return id;
@@ -59,5 +63,10 @@ public class BoardEntity {
     public void setContent(String content) {
         this.content = content;
     }
+
+    //*************************
+
+
+
 }
 

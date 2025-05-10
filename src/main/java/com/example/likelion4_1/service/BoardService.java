@@ -2,13 +2,16 @@ package com.example.likelion4_1.service;
 
 import com.example.likelion4_1.dto.BoardDto;
 import com.example.likelion4_1.entity.BoardEntity;
+import com.example.likelion4_1.entity.UserEntity;
 import com.example.likelion4_1.repository.BoardRepository;
+import com.example.likelion4_1.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -17,9 +20,12 @@ import java.util.List;
 
 public class BoardService {
     private final BoardRepository boardRepository;
+    private final UserRepository userRepository;
     //*************************************************************
     public void save(BoardDto boardDto) {// 생성
-        BoardEntity boardEntity = new BoardEntity(boardDto.getTitle(), boardDto.getContent());
+        UserEntity user = userRepository.findById(boardDto.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
+
+        BoardEntity boardEntity = new BoardEntity(user, boardDto.getTitle(), boardDto.getContent());
         boardRepository.save(boardEntity);
     }
     //*************************************************************
@@ -28,17 +34,27 @@ public class BoardService {
         List<BoardDto> boardDto = new ArrayList<>();
 
         for (BoardEntity entity : boardEntities) {
-            BoardDto dto = new BoardDto(entity.getId(), entity.getTitle(), entity.getContent());
+            UserEntity user = entity.getUserEntity();
+            BoardDto dto = new BoardDto(entity.getId(), entity.getTitle(), entity.getContent(), user.getId());
             boardDto.add(dto);
         }
 
         return boardDto;
     }
     //*************************************************************
-    public BoardDto readById(int id) {// id 조회
-        BoardEntity boardEntity = boardRepository.findById(id).orElse(null);
-        BoardDto dto = new BoardDto(boardEntity.getId(), boardEntity.getTitle(), boardEntity.getContent());
-        return dto;
+    public List<BoardDto> readById(int userId) {// id 조회
+        UserEntity user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<BoardEntity> boardEntity = boardRepository.findByUserEntity_Id(userId);
+        return boardEntity.stream()
+                .map(board -> new BoardDto(
+                        board.getId(),
+                        board.getTitle(),
+                        board.getContent(),
+                        board.getUserEntity().getId()
+                ))
+                .collect(Collectors.toList());
+
     }
     //*************************************************************
     public void deleteById(int id) {
