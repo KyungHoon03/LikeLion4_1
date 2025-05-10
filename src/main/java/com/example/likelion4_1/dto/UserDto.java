@@ -5,7 +5,6 @@ import lombok.*;
 
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
@@ -13,7 +12,6 @@ public class UserDto {
 
     //@NotEmpty
     private Integer id;
-    private Integer userId;
     private String userName;
 
     //@NotEmpty

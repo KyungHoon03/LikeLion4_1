@@ -20,8 +20,7 @@ public class UserService {
     //*******************************
     public ResponseEntity<String> logon(UserDto userDto) {
 
-        UserEntity userEntity = new UserEntity(userDto.getUserId(), userDto.getUserName(), userDto.getPassword(), userDto.getEmail());
-        userEntity.update(userDto.getId());
+        UserEntity userEntity = new UserEntity(userDto.getUserName(), userDto.getPassword(), userDto.getEmail());
         userRepository.save(userEntity);
         return ResponseEntity.ok("User logged in");
     }
@@ -30,8 +29,9 @@ public class UserService {
     public List<UserDto> readAll() {
         List<UserEntity> userEntities = userRepository.findAll();
         List<UserDto> userDtos = new ArrayList<>();
+
         for (UserEntity entity : userEntities) {
-            UserDto userDto = new UserDto(entity.getId(), entity.getUserId(), entity.getUserName(), entity.getPassward(), entity.getEmail());
+            UserDto userDto = new UserDto(entity.getId(), entity.getUserName(), entity.getPassword(), entity.getEmail());
             userDtos.add(userDto);
         }
         return userDtos;

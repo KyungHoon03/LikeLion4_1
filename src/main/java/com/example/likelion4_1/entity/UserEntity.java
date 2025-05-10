@@ -20,10 +20,8 @@ import java.util.List;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private Integer id;
-
     @Column(name = "userId")
-    private Integer userId;
+    private Integer id;
 
     //**************************
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -34,21 +32,17 @@ public class UserEntity {
     @Column(name = "userName", length = 45)
     private String userName;
 
-    @Column(name = "passward", length = 256)
-    private String passward;
+    @Column(name = "password", length = 256)
+    private String password;
 
     @Column(name = "email", length = 100, unique = true)
     private String email;
 
-    public UserEntity(Integer userId, String userName, String passward, String email) {
+    public UserEntity(String userName, String password, String email) {
 
         this.userName = userName;
-        this.passward = passward;
+        this.password = password;
         this.email = email;
     }
 
-    public void update(Integer userId) {
-        this.userId = userId;
-
-    }
 }
